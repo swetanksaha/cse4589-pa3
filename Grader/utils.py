@@ -121,6 +121,10 @@ def print_regular(text, newline=True):
     print_str = '\033[33m%s\033[0m' % (text)
     print_generic(print_str, newline)
 
+def print_success(text, newline=True):
+    print_str = '\033[92m%s\033[0m' % (text)
+    print_generic(print_str, newline)
+
 def print_error(text, newline=True):
     print_str = '\033[91m%s\033[0m' % (text)
     print_generic(print_str, newline)

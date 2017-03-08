@@ -18,22 +18,23 @@ import subprocess
 import time
 import os
 
+import utils
+
 ASSIGNMENT_PATH = ''
 SSH_PROC_LIST = []
 
 def init_remote_assignment(cfg, cntrl_port):
     global SSH_PROC_LIST
 
+    utils.print_regular('Starting assignment servers ...')
     GRADING_SERVERS_HOSTNAME = [server[1] for server in cfg.items('GradingServerList')]
     for server in GRADING_SERVERS_HOSTNAME:
-        remote_cmd = 'cd %s;./%s %s;/bin/tcsh' % (ASSIGNMENT_PATH, cfg.get('Grader', 'binary'), cntrl_port)
-        ssh_cmd = ['ssh', '-i', cfg.get('SSH', 'id'), cfg.get('SSH', 'user')+'@'+server, remote_cmd]
-        print ' '.join(ssh_cmd)
-
-        SSH_PROC_LIST.append((subprocess.Popen(ssh_cmd, stdout=open(os.devnull, 'w'), stderr=subprocess.STDOUT), server, cntrl_port))
+        remote_cmd = './%s %s;/bin/tcsh' % (cfg.get('Grader', 'binary'), cntrl_port)
+        SSH_PROC_LIST.append((run_cmd(cfg, server, remote_cmd, async=True, verbose=False), server, cntrl_port))
 
     # Wait for all servers to init.
     time.sleep(3)
+    utils.print_success('OK')
 
 def cleanup(cfg):
     global SSH_PROC_LIST
@@ -45,45 +46,70 @@ def cleanup(cfg):
         #local
         proc.kill()
 
-def kill_process(cfg, server, port):
+def kill_process(cfg, server, port, verbose=False):
     kill_cmd = "kill -9 `netstat -tupln | grep :%d | awk '{print $NF}' | cut -d/ -f1`" % (port)
     ssh_cmd = ['ssh', '-i', cfg.get('SSH', 'id'), cfg.get('SSH', 'user')+'@'+server, kill_cmd]
-    print ' '.join(ssh_cmd)
 
-    subprocess.call(ssh_cmd, stdout=open(os.devnull, 'w'), stderr=subprocess.STDOUT)
+    args = {'stdout': open(os.devnull, 'w'), 'stderr': subprocess.STDOUT}
+    if verbose:
+        print ' '.join(ssh_cmd)
+        args = {}
 
-def copy_file_from(cfg, server, remote_file, local_file):
+    subprocess.call(ssh_cmd, **args)
+
+def copy_file_from(cfg, server, remote_file, local_file, verbose=False):
     rfile = os.path.join(ASSIGNMENT_PATH, remote_file)
     scp_cmd = ['scp', '-i', cfg.get('SSH', 'id'), cfg.get('SSH', 'user')+'@'+server+':'+rfile, local_file]
-    print ' '.join(scp_cmd)
 
-    subprocess.call(scp_cmd, stdout=open(os.devnull, 'w'), stderr=subprocess.STDOUT)
+    args = {'stdout': open(os.devnull, 'w'), 'stderr': subprocess.STDOUT}
+    if verbose:
+        print ' '.join(scp_cmd)
+        args = {}
 
-def copy_file_to(cfg, server, local_file, remote_file):
+    subprocess.call(scp_cmd, **args)
+
+def copy_file_to(cfg, server, local_file, remote_file, verbose=False):
     rfile = os.path.join(ASSIGNMENT_PATH, remote_file)
     scp_cmd = ['scp', '-i', cfg.get('SSH', 'id'), local_file, cfg.get('SSH', 'user')+'@'+server+':'+rfile]
-    print ' '.join(scp_cmd)
 
-    subprocess.call(scp_cmd, stdout=open(os.devnull, 'w'), stderr=subprocess.STDOUT)
+    args = {'stdout': open(os.devnull, 'w'), 'stderr': subprocess.STDOUT}
+    if verbose:
+        print ' '.join(scp_cmd)
+        args = {}
 
-def delete_file_from(cfg, server, remote_file):
+    subprocess.check_call(scp_cmd, **args)
+
+def delete_file_from(cfg, server, remote_file, verbose=False):
     rfile = os.path.join(ASSIGNMENT_PATH, remote_file)
     del_cmd = 'rm -f %s' % (rfile)
     ssh_cmd = ['ssh', '-i', cfg.get('SSH', 'id'), cfg.get('SSH', 'user')+'@'+server, del_cmd]
-    print ' '.join(ssh_cmd)
 
-    subprocess.call(ssh_cmd, stdout=open(os.devnull, 'w'), stderr=subprocess.STDOUT)
+    args = {'stdout': open(os.devnull, 'w'), 'stderr': subprocess.STDOUT}
+    if verbose:
+        print ' '.join(ssh_cmd)
+        args = {}
 
-def run_cmd(cfg, server, remote_cmd):
+    subprocess.call(ssh_cmd, **args)
+
+def run_cmd(cfg, server, remote_cmd, async=True, verbose=False):
     r_cmd = 'cd %s; %s' % (ASSIGNMENT_PATH, remote_cmd)
     ssh_cmd = ['ssh', '-i', cfg.get('SSH', 'id'), cfg.get('SSH', 'user')+'@'+server, r_cmd]
-    print ' '.join(ssh_cmd)
 
-    subprocess.Popen(ssh_cmd)
+    args = {'stdout': open(os.devnull, 'w'), 'stderr': subprocess.STDOUT}
+    if verbose:
+        print ' '.join(ssh_cmd)
+        args = {}
 
-def run_script(cfg, server, args, script):
+    if async: return subprocess.Popen(ssh_cmd, **args)
+    else: return subprocess.call(ssh_cmd, **args)
+
+def run_script(cfg, server, args, script, verbose=False):
     remote_cmd = 'python -u - %s < %s' % (args, script)
     ssh_cmd = ['ssh', '-i', cfg.get('SSH', 'id'), cfg.get('SSH', 'user')+'@'+server, remote_cmd]
-    print ' '.join(ssh_cmd)
 
-    subprocess.Popen(' '.join(ssh_cmd), shell=True)
+    args = {'stdout': open(os.devnull, 'w'), 'stderr': subprocess.STDOUT}
+    if verbose:
+        print ' '.join(ssh_cmd)
+        args = {}
+
+    subprocess.Popen(' '.join(ssh_cmd), shell=True, **args)
