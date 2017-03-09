@@ -27,9 +27,9 @@ cp dist/grader_controller grader/
 cp cse4589_pa3/Grader/grader.cfg grader/
 
 # Copy the test files
-cp cse4589_pa3/Grader/Grader/testfile1 grader/
-cp cse4589_pa3/Grader/Grader/testfile2 grader/
-cp cse4589_pa3/Grader/Grader/testfile3 grader/
+cp cse4589_pa3/Grader/testfile1 grader/
+cp cse4589_pa3/Grader/testfile2 grader/
+cp cse4589_pa3/Grader/testfile3 grader/
 
 # Cleanup
 rm -rf build
