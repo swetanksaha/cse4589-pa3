@@ -1,0 +1,21 @@
+* This code was written on top of the pa3 template itself and packaged using the bundled package script.
+
+* The sample code is written to be extendable and can be used as a starting point.
+
+* You can use this code base or any part of it, without citing any reference. However, if you want to use the whole code as your base code, you should copy the source into a template installation done under your UBITname. The code as is has references to my UBITname (swetankk). So be careful while copying.
+
+* The code features two methods for creating/crafting packets
+    - Using C structs: cleaner, better-looking
+    - Hand crafting using memory functions (memcpy): gives you more control, messy but safer
+
+    - By default, the code uses the first method. You can enable the second method by commenting the following line (in include/control_header_lib.h) and compiling again:
+      #define PACKET_USING_STRUCT // Comment this out to use alternate packet crafting technique
+      -- All throughout the source, all code specific to the first (struct) method of making packets are bounded as:
+         #ifdef PACKET_USING_STRUCT
+          .........
+         #endif
+
+         whereas, code specific to the other method as:
+         #ifndef PACKET_USING_STRUCT
+          .........
+         #endif
