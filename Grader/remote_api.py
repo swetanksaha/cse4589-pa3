@@ -55,7 +55,9 @@ def kill_process(cfg, server, port, verbose=False):
         print ' '.join(ssh_cmd)
         args = {}
 
-    subprocess.call(ssh_cmd, **args)
+    env = dict(os.environ)
+    env['LD_LIBRARY_PATH'] = env.get('LD_LIBRARY_PATH_ORIG', '')
+    subprocess.call(ssh_cmd, env=env, **args)
 
 def copy_file_from(cfg, server, remote_file, local_file, verbose=False):
     rfile = os.path.join(ASSIGNMENT_PATH, remote_file)
@@ -66,7 +68,9 @@ def copy_file_from(cfg, server, remote_file, local_file, verbose=False):
         print ' '.join(scp_cmd)
         args = {}
 
-    subprocess.call(scp_cmd, **args)
+    env = dict(os.environ)
+    env['LD_LIBRARY_PATH'] = env.get('LD_LIBRARY_PATH_ORIG', '')
+    subprocess.call(scp_cmd, env=env, **args)
 
 def copy_file_to(cfg, server, local_file, remote_file, verbose=False):
     rfile = os.path.join(ASSIGNMENT_PATH, remote_file)
@@ -77,7 +81,9 @@ def copy_file_to(cfg, server, local_file, remote_file, verbose=False):
         print ' '.join(scp_cmd)
         args = {}
 
-    subprocess.check_call(scp_cmd, **args)
+    env = dict(os.environ)
+    env['LD_LIBRARY_PATH'] = env.get('LD_LIBRARY_PATH_ORIG', '')
+    subprocess.check_call(scp_cmd, env=env, **args)
 
 def delete_file_from(cfg, server, remote_file, verbose=False):
     rfile = os.path.join(ASSIGNMENT_PATH, remote_file)
@@ -89,7 +95,9 @@ def delete_file_from(cfg, server, remote_file, verbose=False):
         print ' '.join(ssh_cmd)
         args = {}
 
-    subprocess.call(ssh_cmd, **args)
+    env = dict(os.environ)
+    env['LD_LIBRARY_PATH'] = env.get('LD_LIBRARY_PATH_ORIG', '')
+    subprocess.call(ssh_cmd, env=env, **args)
 
 def run_cmd(cfg, server, remote_cmd, async=True, verbose=False):
     r_cmd = 'cd %s; %s' % (ASSIGNMENT_PATH, remote_cmd)
@@ -100,8 +108,10 @@ def run_cmd(cfg, server, remote_cmd, async=True, verbose=False):
         print ' '.join(ssh_cmd)
         args = {}
 
-    if async: return subprocess.Popen(ssh_cmd, **args)
-    else: return subprocess.call(ssh_cmd, **args)
+    env = dict(os.environ)
+    env['LD_LIBRARY_PATH'] = env.get('LD_LIBRARY_PATH_ORIG', '')
+    if async: return subprocess.Popen(ssh_cmd, env=env, **args)
+    else: return subprocess.call(ssh_cmd, env=env, **args)
 
 def run_script(cfg, server, args, script, verbose=False):
     remote_cmd = 'python -u - %s < %s' % (args, script)
@@ -112,4 +122,6 @@ def run_script(cfg, server, args, script, verbose=False):
         print ' '.join(ssh_cmd)
         args = {}
 
-    subprocess.Popen(' '.join(ssh_cmd), shell=True, **args)
+    env = dict(os.environ)
+    env['LD_LIBRARY_PATH'] = env.get('LD_LIBRARY_PATH_ORIG', '')
+    subprocess.Popen(' '.join(ssh_cmd), shell=True, env=env, **args)
