@@ -153,13 +153,17 @@ def rupdates(controller_path, cfg):
     utils.run_cmd([controller_path, '-t', 'topology', '-i', '2', '-o' 'response.pkt'])
     os.system('rm response.pkt*') #cleanup
 
+    if hasattr(sys, '_MEIPASS'): base_path = sys._MEIPASS
+    else: base_path = os.path.abspath('.')
+    packet_receiver_path = os.path.join(base_path, 'packet_receiver.py')
+
     # Neighbor
     remote_api.kill_process(cfg, utils.get_router_ip(int(ROUTER_ID_MAPPING['2']), ROUTERS), ROUTERS[1].control_port)
-    remote_api.run_script(cfg, utils.get_router_ip(int(ROUTER_ID_MAPPING['2']), ROUTERS), str(ROUTERS[1].router_port)+' 4 '+remote_api.ASSIGNMENT_PATH, 'packet_receiver.py')
+    remote_api.run_script(cfg, utils.get_router_ip(int(ROUTER_ID_MAPPING['2']), ROUTERS), str(ROUTERS[1].router_port)+' 4 '+remote_api.ASSIGNMENT_PATH, packet_receiver_path)
 
     # Non-Neighbor
     remote_api.kill_process(cfg, utils.get_router_ip(int(ROUTER_ID_MAPPING['3']), ROUTERS), ROUTERS[2].control_port)
-    remote_api.run_script(cfg, utils.get_router_ip(int(ROUTER_ID_MAPPING['3']), ROUTERS), str(ROUTERS[2].router_port)+' 4 '+remote_api.ASSIGNMENT_PATH, 'packet_receiver.py')
+    remote_api.run_script(cfg, utils.get_router_ip(int(ROUTER_ID_MAPPING['3']), ROUTERS), str(ROUTERS[2].router_port)+' 4 '+remote_api.ASSIGNMENT_PATH, packet_receiver_path)
 
     sleep(4)
 
@@ -208,6 +212,8 @@ def rupdates(controller_path, cfg):
             if (num_updates == 5) and (src_router_port == ROUTERS[0].router_port) and (src_router_ip == socket.inet_aton(ROUTERS[0].ip_addr)) and (cmp(sorted(updates), sorted(expected_updates)) == 0):
                 score += 5.0
 
+    os.system('rm -f num_updates*')
+    os.system('rm -f update-packet-*')
     remote_api.cleanup(cfg)
     utils.cleanup()
     print score
