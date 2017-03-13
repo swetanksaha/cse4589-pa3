@@ -91,10 +91,6 @@ def grade_init(controller_path, link_costs, cfg):
 
                 if cmp(sorted(r_table), sorted(expected_r_table)) == 0: success = True
                 else:
-                    print '--------------'
-                    print r_table
-                    print expected_r_table
-                    print '--------------'
                     success = False
                     break
         except:
@@ -186,7 +182,6 @@ def rupdates(controller_path, cfg):
         with open('num_updates_neighbor', 'r') as f:
             num_updates = int(f.read())
         if num_updates == 2 or num_updates == 3: score += 5.0
-        else: print 'Boo:', num_updates
 
         remote_api.copy_file_from(cfg, ROUTERS[1].ip_addr, os.path.join(remote_api.ASSIGNMENT_PATH, 'update-packet-'+str(num_updates-1)), './')
         with open('update-packet-'+str(num_updates-1), 'rb') as f:
@@ -195,7 +190,7 @@ def rupdates(controller_path, cfg):
         num_updates, src_router_port, src_router_ip = struct.unpack('!HH4s', pkt[:8])
         updates = []
         pkt = pkt[8:]
-        #print "checking ...", len(pkt), num_updates
+
         if len(pkt) == num_updates*12:
             for index in range(num_updates):
                 updates.append(struct.unpack('!4sHHHH', pkt[index*12:(index*12)+12]))
@@ -359,10 +354,6 @@ def grade_update(controller_path, link_costs, link_update, updated_link_costs, c
 
                 if cmp(sorted(r_table), sorted(expected_r_table)) == 0: success = True
                 else:
-                    print '--------------'
-                    print r_table
-                    print expected_r_table
-                    print '--------------'
                     success = False
                     break
         except:
@@ -480,7 +471,6 @@ def crash(controller_path, cfg):
                     if entry[0] == int(ROUTER_ID_MAPPING['1']): after_cost = entry[2]
     except: pass
 
-    #print before_cost, after_cost
     if before_cost and after_cost and (after_cost > before_cost): score += 5.0
 
     os.system('rm response-author*') #cleanup
