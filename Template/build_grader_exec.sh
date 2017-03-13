@@ -20,7 +20,7 @@ git clone --no-checkout https://ubwins.cse.buffalo.edu/git/swetankk/cse4589_pa3.
 cd cse4589_pa3 && git config core.sparseCheckout true && echo 'Grader/' >> .git/info/sparse-checkout && git checkout master && cd ..
 
 # Build the executable
-pyinstaller --onefile cse4589_pa3/Grader/grader_controller.py
+pyinstaller --onefile cse4589_pa3/Grader/grader_controller.py --add-data="cse4589_pa3/Grader/packet_receiver.py:."
 
 # Copy the binary and configuration file
 cp dist/grader_controller grader/

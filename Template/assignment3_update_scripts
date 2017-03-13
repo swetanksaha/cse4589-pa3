@@ -18,8 +18,10 @@
 
 cd controller
 wget -r --no-parent -nH --cut-dirs=3 -R index.html https://host/remotepath/controller/
+chmod +x controller
 cd ..
 
 cd grader
 wget -r --no-parent -nH --cut-dirs=3 -R index.html https://host/remotepath/grader/
+chmod +x grader_controller
 cd ..
