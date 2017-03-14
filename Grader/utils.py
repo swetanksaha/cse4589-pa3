@@ -71,7 +71,6 @@ def gen_topology(link_costs, cntrl_port, scramble=False):
         topology += ROUTER_ID_MAPPING[link[0]]+' '+ROUTER_ID_MAPPING[link[1]]+' '+str(link[2])+'\n'
 
     topology.rstrip('\n')
-    print topology
 
     top_file = open('topology', 'w')
     top_file.write(topology)
