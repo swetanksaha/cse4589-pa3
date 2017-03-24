@@ -35,7 +35,7 @@ parser = argparse.ArgumentParser(description='CSE 489/589 Grader Controller v'+_
 
 requiredArgs = parser.add_argument_group('required named arguments')
 requiredArgs.add_argument('-c', '--config', dest='config', type=argparse.FileType('r'), nargs=1, help='configuration file', required=True)
-requiredArgs.add_argument('-d', '--dir-assignment', dest='assignment', type=str, nargs=1, help='path to directory where assignment files will be stored/built [on remote machine relative to "base-dir" in grader.cfg]', required=True)
+requiredArgs.add_argument('-d', '--dir-assignment', dest='assignment', type=str, nargs=1, help='remote path to an empty directory where assignment files will be stored/built [on each of the servers listed in grader.cfg]', required=True)
 requiredArgs.add_argument('-s', '--submission', dest='submission', type=str, nargs=1 , help='path to submission tarball', required=True)
 requiredArgs.add_argument('-ctrl', '--controller_path', dest='controller', type=str, nargs=1 , help='path to controller executable [on local machine]', required=True)
 requiredArgs.add_argument('-t', '--test', dest='test', type=str, nargs=1, help='test name', required=True)
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
     cfg = utils.readConfiguration(args.config[0])
     test_name = args.test[0]
-    remote_api.ASSIGNMENT_PATH = os.path.join(cfg.get('Assignment', 'base-dir'), args.assignment[0])
+    remote_api.ASSIGNMENT_PATH = args.assignment[0]
     tarball = args.submission[0]
 
     for server in utils.GRADING_SERVERS_HOSTNAME:
