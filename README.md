@@ -4,7 +4,7 @@ If you have landed at this repository directly, you first should read up on bit 
 ## Introduction
 PA3 AutoGrader runs completely on the system that it is invoked from and does not require any server-side setup. It makes use of the controller application, bundled with the template, to send commands and receive responses to the submission being tested. However, it makes use of ssh/scp while testing for certain test cases.
 
-The AutoGrader takes as input the student source code which is first uploaded to each of the grading machines, built and then tested for a given test case.
+The AutoGrader takes as input the student source code, which is first uploaded to each of the grading machines, built, and then tested for a given test case.
 
 The [_Grader_](/Grader) directory holds the grader source and usage instructions.
 
