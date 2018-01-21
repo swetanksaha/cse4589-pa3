@@ -4,7 +4,7 @@ Note that you need to follow the instructions below **ONLY** if you want to run 
 
 Typically, you do **NOT** need to specifically provide even the binary version (or a link to download it) to the students. The main assignment description/handout provided to students already contains the download link and instructions for its usage.
 
-However, note that grader requires some configuration items (ssh username and keys etc.) that need to be provided to the students (details below). Such configuration can be distributed to the students through typical course communication channels (piazza, course website, etc.).
+However, note that the grader requires some configuration items (ssh username and keys etc.) that need to be provided to the students (details below). Such configuration can be distributed to the students through typical course communication channels (piazza, course website, etc.).
 
 ## Setup
 You need to follow the steps below only if you want to run the grader from the source. If you are using the binary version, skip to the [Configure](https://github.com/cse4589/cse4589-pa3/blob/master/Grader/README.md#configure) section.
