@@ -33,7 +33,7 @@ Before the AutoGrader's client can talk to the server, it needs to be configured
   * **binary** _Filename of the binary created by the submission Makefile (default=assignment3)._ This is an internal grader property and does not require any changes to it.
 
 ***
-<img src="https://cse4589.github.io/assets/site/images/UB_BLU_RGB.png" width=30></img>
+##### <img src="https://cse4589.github.io/assets/site/images/UB_BLU_RGB.png" width=30></img>
 The binary client downloaded by students through the link provided in the assignment handout contains a pre-configured grader.cfg.
 
 However, the students will still need to edit the grader.cfg to enter their own ssh credentials.
