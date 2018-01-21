@@ -32,11 +32,11 @@ Students should already have user accounts on the above hosts as part of the UB 
 However, the home folders of students reside on a disk space that is shared among all CSE student servers. Given that PA3 involves implementation of file transfers, this makes home folders unsuitable for students to do development/testing of PA3. As a fix, CSE-IT creates a directory for each student on a non-shared disk mounted at ```/local``` on each of the five hosts.
 Typically, the course instructor provides the list of students enrolled in the course each semester to CSE-IT and folders are created for each student. For example, for Fall 2017, for a student with UB-IT name [ubitname] the work/test directory could be
 ```/local/Fall_2017/[ubitname]```
-
-#### Notes
-* Instructor/Course staff needs to notify the students of this directory's path to use the used for all their assignment related work.
-* Care should be taken in setting correct permissions for the student work folders so that they are only accessible by the student that the folder is assigned to.
 ***
+
+### Notes
+* Instructor/Course staff **NEED** to inform the students of work directory's path to be used for all their assignment related work.
+* Care should be taken in setting correct permissions for the student work folders so that they are only accessible by the student that the folder is assigned to.
 
 ## AutoGrader: Controller and Grader
 Typically both the grader and the controller application are distributed to students as a single executable binary, instead of the raw python source files, to avoid imposing any additional setup requirements on student machine environments. Setup instructions for both the grader and controller located inside their source folders (linked above) include steps to convert the python source to a Linux executable. It should be fairly straightforward to adapt the conversion process for any other OS the course staff wishes to support. In addition, we also include steps to run the grader directly from source to allow for easy debugging.
