@@ -41,6 +41,6 @@ $ pyinstaller --onefile controller.py
 If everything goes well, the executable named _controller_ will be created ```Controller/dist``` directory. You can upload this binary and the example.topology to somewhere it can be publicly downloaded from.
 
 ***
-<img src="https://cse4589.github.io/assets/site/images/UB_BLU_RGB.png" width=30></img>
+##### <img src="https://cse4589.github.io/assets/site/images/UB_BLU_RGB.png" width=30></img>
 In all likelihood, there is no need for this conversion as pre-compiled binaries are already available for UB students to be downloaded. The download and setup is taken care by the template scripts which are documented in the assignment handout/description.
 ***
