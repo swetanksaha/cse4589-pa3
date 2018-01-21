@@ -8,7 +8,7 @@ The AutoGrader takes as input the student source code, which is first uploaded t
 
 The [_Grader_](/Grader) directory holds the grader source and usage instructions.
 
-The [_Controller_](/Controller) directory holds both source for the controller application.
+The [_Controller_](/Controller) directory holds source and usage for the controller application.
 
 The [_Template_](/Template) directory contains the source for the code template distributed to students (see [here](https://docs.google.com/document/d/1o6epHif2H0--Qhq9uo1dp0tXel5CiSYoYsuFa-s92YU/pub)).
 
